@@ -15,3 +15,10 @@ def get_records(request):
     if user.groups.filter(name='Project Admins').exists():
         return Feature.objects.distinct()
     return Feature.objects.filter(phase__resources__user__username=request.user).distinct()
+
+
+def delete_features(featureIds):
+    features = Feature.objects.filter(id__in=featureIds)
+    deleted_count = features.count()
+    features.delete()
+    return deleted_count
